@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -67,7 +68,7 @@ public class PageAvailabilityChecker implements Callable<PageCheckResult> {
                 if (foundUrl.startsWith("/") || foundUrl.startsWith("#")) {
                     foundUrl = mainPageUrl + foundUrl;
                 }
-                externalPagesUrls.add(URLDecoder.decode(foundUrl, "UTF-8"));
+                externalPagesUrls.add(URLDecoder.decode(foundUrl, "UTF-8").replace(" ","+"));
             }
         }
         return externalPagesUrls;
