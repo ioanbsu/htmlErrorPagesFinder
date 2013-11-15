@@ -1,7 +1,10 @@
 package com.artigile.badpagesfinder;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
 
 /**
  * Date: 11/9/13
@@ -12,6 +15,8 @@ import java.util.concurrent.*;
 
 public class BadPagesFinder {
 
+    public static final Logger logger = Logger.getLogger(BadPagesFinder.class.getName());
+
     public static final int MAX_THREAD_COUNT = 10;
     public static final ExecutorService PROPOSALS_RE_INDEXER_THREAD = Executors.newFixedThreadPool(MAX_THREAD_COUNT);
 
@@ -21,8 +26,17 @@ public class BadPagesFinder {
     private static final int MAX_TIMEOUT_TO_WAIT = 5;
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
+        if (args.length != 1) {
+            logger.info("Please provide the website url that you want to analyze");
+        }
+        String websiteUrl = args[0];
+        logger.info("====================================================================");
+        logger.info("Starting analyzing " + websiteUrl);
+        logger.info("====================================================================");
+
+
         BadPagesFinder badPagesFinder = new BadPagesFinder();
-        badPagesFinder.analyzeWebsite("http://www.yeahtv.com/");
+        badPagesFinder.analyzeWebsite(websiteUrl);
 
     }
 
@@ -34,7 +48,7 @@ public class BadPagesFinder {
         pagesToRequestQueue.add(new PageToAnalyze(websiteMainPage, HOME_PAGE_STR));
         do {
             if (analyzedPages.size() > MAX_ANALYZED_PAGES) {
-                System.out.println("Limit of analyzed pages reached: " + MAX_ANALYZED_PAGES);
+                logger.info("Limit of analyzed pages reached: " + MAX_ANALYZED_PAGES);
                 break;
             }
             PageAvailabilityChecker pageAvailabilityChecker;
@@ -62,7 +76,7 @@ public class BadPagesFinder {
                         printPagePath(analyzedPages, pageAnalyzeResult, TAB_SIGN);
                     }
                 } catch (TimeoutException e) {
-                    System.out.println("timeout");
+                    logger.info("timeout");
                     //   e.printStackTrace();
                 }
 
@@ -71,9 +85,9 @@ public class BadPagesFinder {
         } while (!pagesToRequestQueue.isEmpty());
 
         PROPOSALS_RE_INDEXER_THREAD.shutdown();
-        System.out.println("=======================================================");
-        System.out.println("=======================================================");
-        System.out.println("=======================================================");
+        logger.info("=======================================================");
+        logger.info("=======================================================");
+        logger.info("=======================================================");
 
     }
 

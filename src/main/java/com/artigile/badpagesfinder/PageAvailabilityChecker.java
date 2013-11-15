@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +22,9 @@ import java.util.regex.Pattern;
  * Time: 11:18 AM
  */
 public class PageAvailabilityChecker implements Callable<PageCheckResult> {
+
+    public static final Logger logger= Logger.getLogger(PageAvailabilityChecker.class.getName());
+
     public final String URL_PATTERN = "\\s*(?i)href\\s*=\\s*(\\\"([^\"]*)\\\"|'[^']*'|([^'\">\\s]+))";
 
     private String requestUrl;
