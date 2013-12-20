@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -43,8 +42,9 @@ public class PageAvailabilityChecker implements Callable<PageCheckResult> {
         PageCheckResult resultOfACall = new PageCheckResult();
         resultOfACall.setOriginUrl(requestUrl);
         resultOfACall.setWhereItCameFrom(whereItCamefrom);
+        HttpURLConnection connection = null;
         try {
-            HttpURLConnection connection = initConnection();
+            connection = initConnection();
             int code = connection.getResponseCode();
             resultOfACall.setPageRequestCode(code);
             if (code >= 200 && code <= 300 && requestUrl.startsWith(mainPageUrl)) {
@@ -57,6 +57,10 @@ public class PageAvailabilityChecker implements Callable<PageCheckResult> {
             //e.printStackTrace();
         } catch (Exception e) {
            // e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
         return resultOfACall;
     }
