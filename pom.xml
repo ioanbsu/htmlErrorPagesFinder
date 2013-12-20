@@ -6,7 +6,7 @@
     <artifactId>GooglePlacesChallenge</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <packaging>java</packaging>
+    <packaging>jar</packaging>
     <name>Bad Pages Finder</name>
 
     <properties>
