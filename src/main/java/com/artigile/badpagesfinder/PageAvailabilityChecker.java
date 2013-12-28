@@ -66,7 +66,7 @@ public class PageAvailabilityChecker implements Callable<PageCheckResult> {
     }
 
     private Set<String> collectPagesUrls(HttpURLConnection connection) throws IOException {
-        Set<String> externalPagesUrls = new HashSet<>();
+        Set<String> externalPagesUrls = new HashSet<String>();
         Pattern urlPattern = Pattern.compile(URL_PATTERN);
         String pageStringRepresentation = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
         Matcher urlMatcher = urlPattern.matcher(pageStringRepresentation);

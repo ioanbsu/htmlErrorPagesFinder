@@ -14,7 +14,7 @@ public class PageCheckResult {
 
     private String whereItCameFrom="";
 
-    private Set<String> pagesUrls=new HashSet<>();
+    private Set<String> pagesUrls=new HashSet<String>();
 
     private int pageRequestCode =-1;
 

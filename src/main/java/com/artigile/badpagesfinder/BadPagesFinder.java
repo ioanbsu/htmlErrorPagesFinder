@@ -41,10 +41,10 @@ public class BadPagesFinder {
     }
 
     private void analyzeWebsite(String websiteMainPage) throws InterruptedException, ExecutionException {
-        Set<String> alreadyInQueueSet = new HashSet<>();
-        Set<PageCheckResult> analyzedPages = new HashSet<>();
-        ArrayDeque<PageToAnalyze> pagesToRequestQueue = new ArrayDeque<>();
-        List<Future<PageCheckResult>> resultsList = new ArrayList<>();
+        Set<String> alreadyInQueueSet = new HashSet<String>();
+        Set<PageCheckResult> analyzedPages = new HashSet<PageCheckResult>();
+        ArrayDeque<PageToAnalyze> pagesToRequestQueue = new ArrayDeque<PageToAnalyze>();
+        List<Future<PageCheckResult>> resultsList = new ArrayList<Future<PageCheckResult>>();
         pagesToRequestQueue.add(new PageToAnalyze(websiteMainPage, HOME_PAGE_STR));
         do {
             if (analyzedPages.size() > MAX_ANALYZED_PAGES) {
@@ -63,7 +63,7 @@ public class BadPagesFinder {
                 PageCheckResult pageAnalyzeResult;
                 try {
                     pageAnalyzeResult = pageCheckResultFuture.get(MAX_TIMEOUT_TO_WAIT, TimeUnit.SECONDS);
-                    Set<PageToAnalyze> nonQueuedPages = new HashSet<>();
+                    Set<PageToAnalyze> nonQueuedPages = new HashSet<PageToAnalyze>();
                     for (String pageInNewResult : pageAnalyzeResult.getPagesUrls()) {
                         if (!alreadyInQueueSet.contains(pageInNewResult)) {
                             nonQueuedPages.add(new PageToAnalyze(pageInNewResult, pageAnalyzeResult.getOriginUrl()));
